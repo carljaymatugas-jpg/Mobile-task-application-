@@ -7,21 +7,21 @@ export default function RootLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#00F0FF", // Neon Cyan
-        tabBarInactiveTintColor: "#4B5563", // Muted Gray
+        tabBarActiveTintColor: "#B45309", // Burnt Orange/Amber
+        tabBarInactiveTintColor: "#71717A", // Muted Slate
         tabBarStyle: styles.tabBar,
         tabBarLabelStyle: styles.tabBarLabel,
         tabBarBackground: () => (
-          <View style={{ ...StyleSheet.absoluteFillObject, backgroundColor: '#09090B' }} />
+          <View style={{ ...StyleSheet.absoluteFillObject, backgroundColor: '#FDFCF0' }} />
         ),
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "HUB",
+          title: "ARCHIVE",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="grid-outline" size={size} color={color} />
+            <Ionicons name="journal-outline" size={size} color={color} />
           ),
         }}
       />
@@ -29,9 +29,9 @@ export default function RootLayout() {
       <Tabs.Screen
         name="tasks"
         options={{
-          title: "LOGS",
+          title: "REGISTRY",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="terminal-outline" size={size} color={color} />
+            <Ionicons name="layers-outline" size={size} color={color} />
           ),
         }}
       />
@@ -39,10 +39,10 @@ export default function RootLayout() {
       <Tabs.Screen
         name="add-tasks"
         options={{
-          title: "SYNC",
+          title: "NEW_ENTRY",
           tabBarIcon: ({ color, size }) => (
             <View style={styles.centerIcon}>
-               <Ionicons name="add" size={32} color="#09090B" />
+               <Ionicons name="pencil" size={24} color="#FDFCF0" />
             </View>
           ),
         }}
@@ -63,34 +63,31 @@ const styles = StyleSheet.create({
     height: 85,
     paddingBottom: 25,
     paddingTop: 10,
-    backgroundColor: "#09090B",
-    borderTopWidth: 2,
-    borderTopColor: "#FF003C", // Cyber Pink accent line
-    // Glow effect
-    shadowColor: "#FF003C",
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-    elevation: 20,
+    backgroundColor: "#FDFCF0", // Aged Paper Cream
+    borderTopWidth: 4,
+    borderTopColor: "#27272A", // Thick Charcoal border
+    // Flat offset shadow (looks like a physical card)
+    shadowColor: "#27272A",
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 0,
+    elevation: 0,
   },
   tabBarLabel: {
     fontSize: 10,
-    fontWeight: "800",
+    fontWeight: "900",
     textTransform: "uppercase",
-    letterSpacing: 1.5,
+    letterSpacing: 1,
   },
   centerIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 12,
-    backgroundColor: "#00F0FF",
+    width: 46,
+    height: 46,
+    borderRadius: 2, // Sharp, industrial corners
+    backgroundColor: "#27272A",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
-    // Add a box-shadow/glow for the center button
-    shadowColor: "#00F0FF",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.6,
-    shadowRadius: 12,
+    // Rotated for a "diamond" vintage badge look
+    transform: [{ rotate: '45deg' }],
   }
 });

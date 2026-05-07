@@ -11,7 +11,7 @@ export default function TaskScreen() {
       const data = getTask();
       setTasks(data);
     } catch (error) {
-      Alert.alert("SYSTEM_ERROR", "Failed to sync local data.");
+      Alert.alert("REGISTRY_ERROR", "Failed to retrieve local records.");
     }
   };
 
@@ -22,7 +22,7 @@ export default function TaskScreen() {
   );
 
   const handleDelete = (id: number) => {
-    Alert.alert("DESTRUCTION_PROTOCOL", "Permanently delete this entry?", [
+    Alert.alert("DISCARD_RECORD", "Permanently remove this entry from the ledger?", [
       { text: "ABORT", style: "cancel" },
       {
         text: "CONFIRM",
@@ -32,7 +32,7 @@ export default function TaskScreen() {
             deleteTask(id);
             loadTask();
           } catch (error) {
-            Alert.alert("ERASE_FAILURE", "Data integrity maintained.");
+            Alert.alert("ERROR", "Manual deletion failed.");
           }
         },
       },
@@ -41,24 +41,24 @@ export default function TaskScreen() {
 
   const getStatusColor = (status: string) => {
     switch (status?.toLowerCase()) {
-      case "finished": return "#10B981"; // Bio-Green
-      case "ongoing": return "#00F0FF";  // Neon Cyan
-      default: return "#FF003C";         // Cyber Pink
+      case "finished": return "#166534"; // Hunter Green
+      case "ongoing": return "#B45309";  // Burnt Amber
+      default: return "#991B1B";         // Madder Red
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>ACTIVE_LOGS</Text>
+      <Text style={styles.title}>ACTIVE_REGISTRY</Text>
 
       <Pressable style={styles.addButton} onPress={() => router.push("/add-tasks")}>
-        <Text style={styles.addButtonText}>[+] NEW_ENTRY</Text>
+        <Text style={styles.addButtonText}>[+] NEW_FILE_ENTRY</Text>
       </Pressable>
 
       {tasks.length === 0 ? (
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>NO_ACTIVE_TASKS</Text>
-          <Text style={styles.emptySubtext}>Initialize system for operation.</Text>
+          <Text style={styles.emptyText}>NO_RECORDS_FOUND</Text>
+          <Text style={styles.emptySubtext}>System awaiting initial data entry.</Text>
         </View>
       ) : (
         <FlatList
@@ -78,7 +78,7 @@ export default function TaskScreen() {
               </View>
 
               <Text style={styles.taskDescription} numberOfLines={2}>
-                {item.description || "NO_DESCRIPTION_DATA"}
+                {item.description || "NO_SUPPLEMENTAL_DATA_PROVIDED"}
               </Text>
 
               <View style={styles.actions}>
@@ -89,7 +89,7 @@ export default function TaskScreen() {
                       pathname: "/task-detail",
                       params: { id: item.id, title: item.title, description: item.description, status: item.status }
                     })}>
-                  <Text style={styles.detailButtonText}>DECRYPT</Text>
+                  <Text style={styles.detailButtonText}>OPEN_FILE</Text>
                 </Pressable>
 
                 <Pressable style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
@@ -107,46 +107,54 @@ export default function TaskScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#09090B",
+    backgroundColor: "#FDFCF0", // Vintage Paper
     padding: 20,
   },
   title: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: "900",
-    color: "#00F0FF",
+    color: "#27272A", // Charcoal
     marginTop: 40,
-    marginBottom: 20,
-    letterSpacing: 2,
-    textShadowColor: "rgba(0, 240, 255, 0.4)",
-    textShadowRadius: 10,
+    marginBottom: 25,
+    letterSpacing: 1,
+    textDecorationLine: 'underline',
   },
   addButton: {
     backgroundColor: "transparent",
-    borderWidth: 1,
-    borderColor: "#00F0FF",
+    borderWidth: 2,
+    borderColor: "#27272A",
     paddingVertical: 12,
     paddingHorizontal: 20,
-    borderRadius: 4,
+    borderRadius: 2,
     alignSelf: "flex-start",
     marginBottom: 30,
-    shadowColor: "#00F0FF",
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
+    // Hard offset shadow
+    shadowColor: "#27272A",
+    shadowOffset: { width: 3, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 0,
+    elevation: 3,
   },
   addButtonText: {
-    color: "#00F0FF",
-    fontWeight: "800",
-    fontSize: 14,
+    color: "#27272A",
+    fontWeight: "900",
+    fontSize: 13,
     letterSpacing: 1,
   },
   card: {
-    backgroundColor: "#18181B",
+    backgroundColor: "#FDFCF0",
     padding: 18,
-    borderRadius: 4,
-    marginBottom: 16,
-    borderWidth: 1,
+    borderRadius: 2,
+    marginBottom: 20,
+    borderWidth: 2,
     borderColor: "#27272A",
-    borderLeftWidth: 4, // Status-colored accent line
+    borderLeftWidth: 6, // Thick status-colored accent line
+    // Hard shadow for "ledger" feel
+    shadowColor: "#27272A",
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 0.1,
+    shadowRadius: 0,
+    elevation: 4,
   },
   cardHeader: {
     flexDirection: "row",
@@ -155,18 +163,18 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   taskTitle: {
-    fontSize: 17,
-    fontWeight: "800",
-    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "900",
+    color: "#27272A",
     flex: 1,
     marginRight: 10,
     letterSpacing: 0.5,
   },
   statusBadge: {
-    borderWidth: 1,
+    borderWidth: 1.5,
     paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 2,
+    paddingVertical: 3,
+    borderRadius: 0,
   },
   statusText: {
     fontSize: 9,
@@ -175,42 +183,45 @@ const styles = StyleSheet.create({
   },
   taskDescription: {
     fontSize: 14,
-    color: "#94A3B8",
+    color: "#52525B",
     lineHeight: 20,
-    marginBottom: 20,
+    marginBottom: 22,
+    fontStyle: 'italic',
   },
   actions: {
     flexDirection: "row",
-    gap: 10,
+    gap: 12,
+    borderTopWidth: 1,
+    borderTopColor: "#E4E4E7",
+    paddingTop: 15,
   },
   detailButton: {
     flex: 2,
-    backgroundColor: "rgba(0, 240, 255, 0.1)",
-    borderWidth: 1,
-    borderColor: "#00F0FF",
+    backgroundColor: "transparent",
+    borderWidth: 1.5,
+    borderColor: "#27272A",
     paddingVertical: 12,
-    borderRadius: 4,
+    borderRadius: 2,
     alignItems: "center",
   },
   detailButtonText: {
-    color: "#00F0FF",
+    color: "#27272A",
     fontWeight: "900",
     fontSize: 12,
     letterSpacing: 1,
   },
   deleteButton: {
     flex: 1,
-    backgroundColor: "rgba(255, 0, 60, 0.1)",
-    borderWidth: 1,
-    borderColor: "#FF003C",
+    backgroundColor: "transparent",
     paddingVertical: 12,
-    borderRadius: 4,
+    borderRadius: 2,
     alignItems: "center",
   },
   deleteButtonText: {
-    color: "#FF003C",
+    color: "#991B1B", // Madder Red
     fontWeight: "900",
     fontSize: 12,
+    textDecorationLine: 'underline',
   },
   emptyContainer: {
     flex: 1,
@@ -220,13 +231,13 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 18,
     fontWeight: "900",
-    color: "#27272A",
+    color: "#A1A1AA",
     letterSpacing: 2,
     marginBottom: 8,
   },
   emptySubtext: {
     fontSize: 12,
-    color: "#4B5563",
+    color: "#D4D4D8",
     letterSpacing: 1,
   },
 });

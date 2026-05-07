@@ -19,46 +19,46 @@ export default function AddTaskScreen() {
     const handleSave = () => {
         try {
             if (!title.trim()) {
-                throw new Error("ENTRY FAILED: Title required");
+                throw new Error("REGISTRY_ERROR: Title required");
             }
 
             addTask(title.trim(), description.trim(), status);
-            Alert.alert("SYSTEM UPDATE", `Task "${title}" initialized.`);
+            Alert.alert("RECORD SAVED", `Entry "${title}" logged successfully.`);
             resetForm();
             router.back();
         } catch (error: any) {
-            Alert.alert("ERROR", error.message || "Connection lost");
+            Alert.alert("SYSTEM_ERROR", error.message || "Archive failure");
         }
     };
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
-            <Text style={styles.title}>INITIALIZE_TASK</Text>
+            <Text style={styles.title}>NEW_LOG_ENTRY</Text>
 
             <View style={styles.inputWrapper}>
-                <Text style={styles.label}>CORE_TITLE</Text>
+                <Text style={styles.label}>IDENTIFIER_TITLE</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Input task identity..."
+                    placeholder="Enter subject identity..."
                     value={title}
                     onChangeText={setTitle}
-                    placeholderTextColor="#4B5563"
+                    placeholderTextColor="#A1A1AA"
                 />
             </View>
 
             <View style={styles.inputWrapper}>
-                <Text style={styles.label}>DESCRIPTION_LOG</Text>
+                <Text style={styles.label}>SUPPLEMENTAL_DATA</Text>
                 <TextInput
                     style={[styles.input, styles.textArea]}
-                    placeholder="Enter secondary data..."
+                    placeholder="Provide detailed description..."
                     value={description}
                     onChangeText={setDescription}
                     multiline
-                    placeholderTextColor="#4B5563"
+                    placeholderTextColor="#A1A1AA"
                 />
             </View>
 
-            <Text style={styles.label}>PRIORITY_STATUS</Text>
+            <Text style={styles.label}>CLASSIFICATION</Text>
             <View style={styles.statusContainer}>
                 {statusOptions.map((option) => (
                     <Pressable
@@ -82,7 +82,7 @@ export default function AddTaskScreen() {
             </View>
 
             <Pressable style={styles.saveButton} onPress={handleSave}>
-                <Text style={styles.saveButtonText}>UPLOAD_TO_DATABASE</Text>
+                <Text style={styles.saveButtonText}>COMMIT_TO_REGISTRY</Text>
             </Pressable>
         </ScrollView>
     );
@@ -91,38 +91,35 @@ export default function AddTaskScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#09090B", // Match RootLayout background
+        backgroundColor: "#FDFCF0", // Vintage Paper
         padding: 20,
     },
     title: {
-        fontSize: 28,
+        fontSize: 26,
         fontWeight: "900",
-        color: "#00F0FF", // Neon Cyan
-        marginBottom: 30,
+        color: "#27272A", // Charcoal
+        marginBottom: 35,
         marginTop: 40,
-        letterSpacing: 2,
-        textShadowColor: "rgba(0, 240, 255, 0.4)",
-        textShadowOffset: { width: 0, height: 0 },
-        textShadowRadius: 10,
+        letterSpacing: 1,
+        textDecorationLine: 'underline',
     },
     inputWrapper: {
         marginBottom: 25,
     },
     label: {
-        fontSize: 12,
-        fontWeight: "800",
-        color: "#FF003C", // Cyber Pink
+        fontSize: 11,
+        fontWeight: "900",
+        color: "#B45309", // Burnt Amber
         marginBottom: 8,
-        letterSpacing: 1,
+        letterSpacing: 1.5,
     },
     input: {
-        backgroundColor: "#18181B",
-        borderWidth: 1,
+        backgroundColor: "transparent",
+        borderBottomWidth: 3, // Thick bottom border like a ledger line
         borderColor: "#27272A",
-        borderRadius: 4, // More angular for cyberpunk feel
-        padding: 16,
+        padding: 12,
         fontSize: 16,
-        color: "#FFFFFF",
+        color: "#27272A",
     },
     textArea: {
         minHeight: 100,
@@ -130,43 +127,44 @@ const styles = StyleSheet.create({
     },
     statusContainer: {
         flexDirection: "row",
-        gap: 10,
-        marginBottom: 40,
+        gap: 8,
+        marginBottom: 45,
     },
     statusButton: {
         flex: 1,
         paddingVertical: 12,
-        borderRadius: 4,
-        borderWidth: 1,
-        borderColor: "#27272A",
-        backgroundColor: "#18181B",
+        borderRadius: 2,
+        borderWidth: 1.5,
+        borderColor: "#E4E4E7",
+        backgroundColor: "#FDFCF0",
         alignItems: "center",
     },
     statusButtonActive: {
-        backgroundColor: "rgba(0, 240, 255, 0.1)",
-        borderColor: "#00F0FF",
+        backgroundColor: "#27272A",
+        borderColor: "#27272A",
     },
     statusButtonText: {
-        fontSize: 11,
-        fontWeight: "700",
-        color: "#4B5563",
+        fontSize: 10,
+        fontWeight: "900",
+        color: "#71717A",
     },
     statusButtonTextActive: {
-        color: "#00F0FF",
+        color: "#FDFCF0",
     },
     saveButton: {
-        backgroundColor: "#00F0FF",
-        paddingVertical: 18,
-        borderRadius: 4,
+        backgroundColor: "#27272A",
+        paddingVertical: 20,
+        borderRadius: 2,
         alignItems: "center",
-        shadowColor: "#00F0FF",
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.5,
-        shadowRadius: 15,
-        elevation: 10,
+        // Flat offset shadow
+        shadowColor: "#27272A",
+        shadowOffset: { width: 4, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 0,
+        elevation: 5,
     },
     saveButtonText: {
-        color: "#09090B",
+        color: "#FDFCF0",
         fontSize: 14,
         fontWeight: "900",
         letterSpacing: 2,
